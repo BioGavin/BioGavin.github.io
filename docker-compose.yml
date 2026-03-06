@@ -1,0 +1,26 @@
+services:
+  jekyll:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: biogavin-jekyll
+    ports:
+      - "4000:4000"
+    working_dir: /site
+    volumes:
+      - .:/site
+      - bundle_cache:/site/vendor/bundle
+    command: bundle exec jekyll serve --host 0.0.0.0 --livereload --force_polling
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /site
+    volumes:
+      - .:/site
+      - bundle_cache:/site/vendor/bundle
+    command: bundle exec jekyll build
+
+volumes:
+  bundle_cache:
